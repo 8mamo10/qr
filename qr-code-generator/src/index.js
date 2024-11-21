@@ -11,10 +11,14 @@
 export default {
 	async fetch(request, env, ctx) {
 		if (request.method == "POST") {
-			return new Response('Hello Worker!');
+			return generateQRCode(request);
 		}
 		return new Response("Expected POST request", {
 			status: 405,
 		});
 	},
 };
+
+async function generateQRCode(request) {
+	return new Response('Hello Worker!');
+}
