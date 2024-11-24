@@ -8,6 +8,8 @@
  * Learn more at https://developers.cloudflare.com/workers/
  */
 
+import QRCode from "qrcode-svg";
+
 export default {
 	async fetch(request, env, ctx) {
 		if (request.method == "POST") {
@@ -20,5 +22,7 @@ export default {
 };
 
 async function generateQRCode(request) {
-	return new Response('Hello Worker!');
+	const { text } = await request.json();
+	const qr = QRCode({ context: text || "https://workers.dev" });
+	return new Response(qr.svg(), { headers: { "Context-Type": "image/svg+xml" } });
 }
